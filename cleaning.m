@@ -6,11 +6,11 @@ function [out] = cleaning(res)
     % Left-right cleaning
     res(:,1:floor(width(res)*0.2)) = 0;
     res(:,floor(width(res)*0.8):floor(width(res))) = 0;
-
+    
     res = imdilate(res,strel('disk', 3));
     res = imerode(res,strel('disk', 5));
     res = imdilate(res,strel('disk', 2));
-
+    
     [lab,num]=bwlabel(res);
     stats = regionprops(lab);
 
@@ -21,7 +21,7 @@ function [out] = cleaning(res)
         end
     end
 
-    if(num ~= 2) 
+    if(num > 2) 
 %         disp('Removing specks')
         for i = 1:num
             area = getfield(stats,{i},"Area");

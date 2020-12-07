@@ -1,7 +1,22 @@
 function id = TNM034(im)
 
-    % This function requires the folder DB1 to be in the same directory as
-    % this file.
+    % Info:
+    % This function takes an image as input and outputs the index of a 
+    % matching face in the data set. This function calculates if the input 
+    % image is a part of the data set by looking at the weight differense 
+    % to any face in the data set. 
+
+    % Dependencies:
+    %   Folders:
+    %       './DB1'
+    %   Files:
+    %       './cleaning.m'
+    %       './crop.m'
+    %       './cropImage.m'
+    %       './cWhitePatch.m'
+    %       './eyeMap.m'
+    %       './faceMask.m'
+    %       './rotate_image.m'
 
     N = 16;
     image_vector = zeros(40000,N);

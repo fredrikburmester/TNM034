@@ -11,6 +11,7 @@ function [weights, meanFace, u] = create_eigen_weights()
         im_path = './DB1/' + string(f);
         RGB = imread(im_path);
         RGB = cropImage(RGB);
+%         imshow(RGB)
         grayImage = im2gray(im2double(RGB));
 %         grayImage = histeq(grayImage);
         image_vector(:,count) = grayImage(:);
@@ -21,7 +22,7 @@ function [weights, meanFace, u] = create_eigen_weights()
     meanFace = sum(image_vector,2)/N;
 
     % Subtract mean
-    A = im2double(image_vector)-meanFace;
+    A = image_vector-meanFace;
 
     % Covariance 
     C1 = A'*A;

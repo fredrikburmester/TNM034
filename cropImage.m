@@ -1,8 +1,7 @@
 function [croppedImage] = cropImage(RGB)
-   % White balance
+    % White balance
     rgbImageWhite = cWhitePatch(RGB);
-%     rgbImageWhite = grayWorld2(RGB);
-    
+
     % Face mask
     mask = faceMask(rgbImageWhite);
 %     figure, imshow(mask)

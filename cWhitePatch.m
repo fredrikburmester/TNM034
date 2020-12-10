@@ -8,7 +8,7 @@ bRGB = RGB(:,:,3);
 
 maxIllum = illumwhite(RGB);
 
-if(maxIllum(2)< 0.9)
+if(maxIllum(2) < 0.9)
     add = 255./max(gRGB);
     gRGB = add.*gRGB;
     maxIllum(2) = 1;

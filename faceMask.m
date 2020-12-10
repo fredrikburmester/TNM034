@@ -27,15 +27,15 @@ function [mask] = faceMask(rgbImage)
 
     rgbImage = imbinarize(im2double(rgbImage(:,:,1)));
     
-    rgbImage = imerode(rgbImage,strel('disk',3));
+    % Clean the image
+    rgbImage = imerode(rgbImage,strel('disk',2));
     rgbImage = imerode(rgbImage,strel('disk',1));
-    
     rgbImage = imdilate(rgbImage,strel('disk',8));
     
     rgbImage = imfill(double(rgbImage));
     
     rgbImage = imdilate(rgbImage,strel('disk',8));
-    
+ 
     rgbImage = imfill(double(rgbImage));
     
     rgbImage = imerode(rgbImage,strel('disk',10));

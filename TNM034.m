@@ -1,10 +1,10 @@
-function id = TNM034(im)
+function [id, value] = TNM034(im)
 
     % Info:
-    % This function takes an image as input and outputs the index of a 
-    % matching face in the data set. This function calculates if the input 
-    % image is a part of the data set by looking at the weight differense 
-    % to any face in the data set. 
+    %   This function takes an image as input and outputs the index of a 
+    %   matching face in the data set. This function calculates if the input 
+    %   image is a part of the data set by looking at the weight differense 
+    %   to any face in the data set. 
 
     % Dependencies:
     %   Folders:
@@ -17,64 +17,44 @@ function id = TNM034(im)
     %       './eyeMap.m'
     %       './faceMask.m'
     %       './rotate_image.m'
-
-    N = 16;
-    image_vector = zeros(40000,N);
-
-    for i = 1:N
-        if (i < 10)
-            number = '0' + string(i);
-        else
-            number = string(i);
+    %       './create_eigen_weights.m'
+    
+    persistent w
+    persistent meanFace
+    persistent u
+    
+    % Create weights (only once)
+    if isempty(w)
+        [w, meanFace, u] = create_eigen_weights();
+    end
+    
+    % Prepare the input image and compare the wieght to the dataset. Return
+    % 0 if no match is found.
+    croppedImage_result = cropImage(im);
+    
+    id = 0;
+    if isempty(croppedImage_result)
+        % do nothing
+    else
+        grayImage = im2gray(im2double(croppedImage_result));
+%         grayImage = histeq(grayImage);
+        grayImage = grayImage(:);
+        theta = grayImage - meanFace;
+        qw = u'*theta;
+ 
+        for i = 1:16
+            e(:,i) = w(:,i) - qw(:);
         end
 
-        name = './DB1/db1_' + number + '.jpg';
-        RGB = imread(name);
-        RGB = cropImage(RGB);
-        grayImage = im2gray(im2double(RGB));
-        image_vector(:,i) = grayImage(:);
-    end
-    
-    % Mean-face
-    meanFace = sum(image_vector,2)/N;
+        for i=1:16
+            e2(:,i) = sum(abs(e(:,i)));
+        end
 
-    % Subtract mean
-    A = im2double(image_vector)-meanFace;
-
-    % Covariance 
-    C1 = A'*A;
-    [V, ~] = eig(C1);
-    u = A*V;
-
-    % Normalization
-    for i=1:16
-        u(:,i) = u(:,i)/norm(u(:,i));
-    end
-
-    % Weights
-    w = u'*A;
-    
-    croppedImage_result = cropImage(im);
-    grayImage = im2gray(im2double(croppedImage_result));
-    grayImage = grayImage(:);
-
-    theta = grayImage - meanFace;
-
-    qw = u'*theta;
-
-    e = zeros(16,16);
-
-    for i = 1:16
-        e(:,i) = w(:,i) - qw(:);
-    end
-
-    e2 = sum(abs(e));
-
-    [value, index] = min(abs(e2));
-
-    id = 0;
-    if(value < 200)
-        id = index;
+        [value, index] = min(abs(e2));
+        
+        if(value < 150)
+            id = index;
+        end
     end
 end
 

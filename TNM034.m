@@ -37,22 +37,23 @@ function [id, value] = TNM034(im)
         % do nothing
     else
         grayImage = im2gray(im2double(croppedImage_result));
-%         grayImage = histeq(grayImage);
         grayImage = grayImage(:);
         theta = grayImage - meanFace;
         qw = u'*theta;
  
         for i = 1:16
-            e(:,i) = w(:,i) - qw(:);
+%             e(:,i) = w(:,i) - qw(:);
+            e_n(i) = norm(w(:,i) - qw(:));
         end
-
-        for i=1:16
-            e2(:,i) = sum(abs(e(:,i)));
-        end
-
-        [value, index] = min(abs(e2));
+% 
+%         for i=1:16
+%             e2(:,i) = sum(abs(e(:,i)));
+%         end
+        [value, index] = min(e_n);
         
-        if(value < 150)
+%         [value, index] = min(abs(e2));
+        
+        if(value < 1500)
             id = index;
         end
     end

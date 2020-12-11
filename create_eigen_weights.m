@@ -10,10 +10,19 @@ function [weights, meanFace, u] = create_eigen_weights()
     for f = fs
         im_path = './DB1/' + string(f);
         RGB = imread(im_path);
+        
         RGB = cropImage(RGB);
+        
+        RGB = cWhitePatch(RGB);
+%         figure, imshow(RGB)
         grayImage = im2gray(im2double(RGB));
         
-        grayImage = highboostfilter(grayImage);
+        if (mean(grayImage(:)) < 0.6 || mean(grayImage(:)) > 0.7)
+            grayImage = grayImage * (0.65 / mean(grayImage(:))); 
+        end
+        
+        grayImage = (grayImage - min(min(grayImage))) / (max(max(grayImage)) - min(min(grayImage)) );
+        
         image_vector(:,count) = grayImage(:);
         count = count + 1;
     end

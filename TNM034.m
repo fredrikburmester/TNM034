@@ -31,16 +31,21 @@ function [id, value] = TNM034(im)
     % Prepare the input image and compare the wieght to the dataset. Return
     % 0 if no match is found.
     croppedImage_result = cropImage(im);
-    
+%     figure, imshow(croppedImage_result)
     id = 0;
     if isempty(croppedImage_result)
         % do nothing
     else
         grayImage = im2gray(im2double(croppedImage_result));
+        grayImage = highboostfilter(grayImage);
+%         figure, imshow(grayImage);
         grayImage = grayImage(:);
         theta = grayImage - meanFace;
         qw = u'*theta;
- 
+%  
+%         figure, imshow(reshape(meanFace, [200 200]))
+%         
+%         figure, imshow(reshape(abs(u(:,2)), [200 200]));
         for i = 1:16
 %             e(:,i) = w(:,i) - qw(:);
             e_n(i) = norm(w(:,i) - qw(:));

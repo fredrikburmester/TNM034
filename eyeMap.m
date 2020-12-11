@@ -4,8 +4,8 @@ function [Y] = eyeMap(RGB)
     YCBCR = im2double(YCBCR);
     
     Y  = YCBCR(:,:,1);
-    cr = YCBCR(:,:,2);
-    cb = YCBCR(:,:,3);
+    cb = YCBCR(:,:,2);
+    cr = YCBCR(:,:,3);
     
     %EyemapL, set SE-size
     se = strel('disk',15);
@@ -15,7 +15,7 @@ function [Y] = eyeMap(RGB)
     %EyemapC
     inVers = 1-cr;
     eyemapC = (cb.^2 + inVers.^2 + (cb./cr))/3;
-    eyemapC = histeq(1-eyemapC);
+    eyemapC = histeq(eyemapC);
     
     %EyemapL AND EyemapC
     Y = eyemapL.*eyemapC;

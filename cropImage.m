@@ -1,17 +1,17 @@
 function [croppedImage] = cropImage(RGB)
     % White balance
     rgbImageWhite = cWhitePatch(RGB);
-
+%     figure, imshow(rgbImageWhite)
     % Face mask
     mask = faceMask(rgbImageWhite);
 %     figure, imshow(mask)
     
     % Eye map
     map = eyeMap(rgbImageWhite);
-    
+%     figure, imshow(map)
     % Combine
     res = map & mask;
-    
+%     figure, imshow(res)
     % Cleaning
     res = cleaning(res);
     

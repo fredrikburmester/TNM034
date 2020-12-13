@@ -15,7 +15,7 @@ function [croppedImage] = cropImage(RGB)
     
     % Cleaning
     res = cleaning(res);
-%     
+    
 %     figure, imshow(normalizedImage);
 %     figure, imshow(map);
 %     figure, imshow(mask);

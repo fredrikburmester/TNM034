@@ -1,7 +1,9 @@
 function [mask] = faceMask(rgbImage)
     HSV = rgb2hsv(rgbImage);
+%     figure, imshow(HSV)
     H = HSV(:,:,1);
     YCBCR = rgb2ycbcr(rgbImage);
+%     figure, imshow(YCBCR)
     Cb = YCBCR(:,:,2);
 
     for i = 1:length(rgbImage(:,1,1))
@@ -20,7 +22,7 @@ function [mask] = faceMask(rgbImage)
                rgbImage(i,j,1) = 0;
                rgbImage(i,j,2) = 0;
                rgbImage(i,j,3) = 0;
-           end    
+           end
 
         end
     end

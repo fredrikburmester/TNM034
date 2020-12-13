@@ -19,9 +19,9 @@ function [Y] = eyeMap(RGB)
     
     %EyemapL AND EyemapC
     Y = eyemapL.*eyemapC;
-    
-    Y = Y > 0.70;
-    
+%     figure, imshow(Y);
+    Y = Y > 0.75;
+   
     Y = imdilate(Y,strel('disk',4));
 end
 

@@ -4,8 +4,8 @@ function [out] = cleaning(res)
     res(floor(height(res)*0.60):height(res),:) = 0;
 
     % Left-right cleaning
-    res(:,1:floor(width(res)*0.2)) = 0;
-    res(:,floor(width(res)*0.8):floor(width(res))) = 0;
+    res(:,1:floor(width(res)*0.25)) = 0;
+    res(:,floor(width(res)*0.75):floor(width(res))) = 0;
     
 %     res = imerode(res,strel('disk', 1));
     res = imdilate(res,strel('disk', 5));
@@ -27,16 +27,40 @@ function [out] = cleaning(res)
 
     if(num > 2) 
 %         disp('Removing specks')
-        for i = 1:num
-            area = getfield(stats,{i},"Area");
-            deltaA(i,1) = abs(maxArea-area);
+        delta = 999;
+        clear index
+        index = [0, 0];
+        for i = 1:num-1
+            for j = i+1:num
+                 y_i = getfield(stats,{i},"Centroid");
+                 y_j = getfield(stats,{j},"Centroid");
+                 
+                 if abs(y_i(1) - y_j(1)) > 100
+                    if abs(y_i(2) - y_j(2)) < delta
+                        delta = abs(y_i(2) - y_j(2));
+                        index = [i,j];
+                    end
+                 end
+                 
+            end
         end
+        
+        if (index(1) == 0 && index(2) == 0 )
+            for i = 1:num-1
+                for j = i+1:num
+                     y_i = getfield(stats,{i},"Centroid");
+                     y_j = getfield(stats,{j},"Centroid");
 
-        [deltaA, index] = sort(deltaA);
-        index = index(1:2);
+                     if abs(y_i(1) - y_j(1)) > 50
+                        if abs(y_i(2) - y_j(2)) < delta
+                            delta = abs(y_i(2) - y_j(2));
+                            index = [i,j];
+                        end
+                     end
 
-        statsNew(1) = stats(index(1));
-        statsNew(2) = stats(index(2));
+                end
+            end
+        end
 
         % Remove specks
         res = ismember(lab, index) > 0;

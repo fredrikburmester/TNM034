@@ -61,7 +61,7 @@ function [id, value] = TNM034(im)
         [value, index] = min(e_n);
 
         % Return if the value is low enough
-        if(value < 1500)
+        if(value < 20)
             id = index;
         end
     end

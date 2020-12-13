@@ -1,6 +1,6 @@
 function [out] = cleaning(res)
     % Top bottom cleaning
-    res(1:floor(height(res)*0.2),:) = 0;
+    res(1:floor(height(res)*0.3),:) = 0;
     res(floor(height(res)*0.60):height(res),:) = 0;
 
     % Left-right cleaning

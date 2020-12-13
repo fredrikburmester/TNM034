@@ -7,7 +7,8 @@ function [out] = cleaning(res)
     res(:,1:floor(width(res)*0.2)) = 0;
     res(:,floor(width(res)*0.8):floor(width(res))) = 0;
     
-    res = imdilate(res,strel('disk', 3));
+%     res = imerode(res,strel('disk', 1));
+    res = imdilate(res,strel('disk', 5));
 %     imshow(res)
 %     res = imerode(res,strel('disk', 1));
 %     res = imdilate(res,strel('disk', 2));

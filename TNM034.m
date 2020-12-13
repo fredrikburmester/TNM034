@@ -5,68 +5,62 @@ function [id, value] = TNM034(im)
     %   matching face in the data set. This function calculates if the input 
     %   image is a part of the data set by looking at the weight differense 
     %   to any face in the data set. 
-
-    % Dependencies:
-    %   Folders:
-    %       './DB1'
-    %   Files:
-    %       './cleaning.m'
-    %       './crop.m'
-    %       './cropImage.m'
-    %       './cWhitePatch.m'
-    %       './eyeMap.m'
-    %       './faceMask.m'
-    %       './rotate_image.m'
-    %       './create_eigen_weights.m'
     
     persistent w
-    persistent meanFace
     persistent u
+    persistent meanFace
+    persistent image_matrix
     
-    % Create weights (only once)
+    clear id
+    clear value
+    
+    % Create objects (only once)
     if isempty(w)
-        [w, meanFace, u] = create_eigen_weights();
+        disp('Building dataset:')
+        disp('Creating image matrix')
+        image_matrix = createImageMatrix();
+        disp('Creating mean face')
+        meanFace = createMeanFace(image_matrix);
+        disp('Creating weights')
+        [w, u] = createWeights(image_matrix, meanFace);
+    else
+        %
     end
     
     % Prepare the input image and compare the wieght to the dataset. Return
     % 0 if no match is found.
     
-    croppedImage_result = cropImage(im);
-    croppedImage_result = cWhitePatch(croppedImage_result);
+    % Crop the image
+    croppedImage = cropImage(im);
+   
     id = 0;
-    if isempty(croppedImage_result)
-        % do nothing
+    if isempty(croppedImage)
+         disp('Error: cropImage returned no eyes...')
     else
-        grayImage = im2gray(im2double(croppedImage_result));
+%         figure, imshow(croppedImage);
         
-%         figure, imshow(grayImage);
-        if (mean(grayImage(:)) < 0.6 || mean(grayImage(:)) > 0.7 )
-            grayImage = grayImage * (0.65 / mean(grayImage(:))); 
-        end
-%         figure, imshow(grayImage);
+        croppedImage = whitePatch(croppedImage);
+        normalizedImage = normalizeRGBImage(croppedImage);
         
-         grayImage = (grayImage - min(min(grayImage))) / (max(max(grayImage)) - min(min(grayImage)) );
-%         grayImage = highboostfilter(grayImage);
-        grayImage = grayImage(:);
-        theta = grayImage - meanFace;
+        % Make the image gray and normalize it
+        grayImage = im2gray(im2double(normalizedImage));
+        
+        normalizedImage = normalizeImage(grayImage);
+%         figure, imshow(normalizedImage)
+        % Calculate weights for in image
+        theta = normalizedImage(:) - meanFace;
         qw = u'*theta;
-
-%         figure, imshow(reshape(meanFace, [200 200]))
-% 
-%         figure, imshow(reshape(abs(u(:,2)), [200 200]));
-
+        
+        % Normalize the weights of the new image
+        e_n = zeros(1,16);
         for i = 1:16
-%             e(:,i) = w(:,i) - qw(:);
             e_n(i) = norm(w(:,i) - qw(:));
         end
-% 
-%         for i=1:16
-%             e2(:,i) = sum(abs(e(:,i)));
-%         end
+        
+        % Find the smallest error
         [value, index] = min(e_n);
-        
-%         [value, index] = min(abs(e2));
-        
+
+        % Return if the value is low enough
         if(value < 1500)
             id = index;
         end

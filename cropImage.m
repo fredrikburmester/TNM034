@@ -8,19 +8,16 @@ function [croppedImage] = cropImage(RGB)
     
     % Eye map
     map = eyeMap(normalizedImage);
-%     disp('eyemap')
-    
+   
     % Combine
     res = map & mask;
     
     % Cleaning
+    res = imresize(res, [NaN 350]);
+    RGB = imresize(RGB, [NaN 350]);
+
     res = cleaning(res);
-    
-%     figure, imshow(normalizedImage);
-%     figure, imshow(map);
-%     figure, imshow(mask);
-%     figure, imshow(res);
-    
+
     % Get eye coordinates
     [lab,num]=bwlabel(res);
     
@@ -35,7 +32,7 @@ function [croppedImage] = cropImage(RGB)
 
         % Rotate the images based on the eyes
         rotatedImage = rotateImage(RGB,y1,x1,y2,x2);
-        % disp('Rotated image'), imshow(rotatedImage);
+%         disp('Rotated image'), imshow(rotatedImage);
 
         % Get new eye coordinates
         map = rotateImage(res,y1,x1,y2,x2);
@@ -54,6 +51,11 @@ function [croppedImage] = cropImage(RGB)
         disp('Crop Image: Can not find eyes')
         croppedImage = 0;
     end
+    
+  figure, imshow(normalizedImage);
+    
+  figure, imshow(mask);
+    figure, imshow(croppedImage);
     
 end
 

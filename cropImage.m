@@ -1,19 +1,25 @@
 function [croppedImage] = cropImage(RGB)
     % White balance
-    rgbImageWhite = cWhitePatch(RGB);
-%     figure, imshow(rgbImageWhite)
+    rgbImageWhite = whitePatch(RGB);
+    normalizedImage = normalizeRGBImage(rgbImageWhite);
+
     % Face mask
-    mask = faceMask(rgbImageWhite);
-%     figure, imshow(mask)
+    mask = faceMask(normalizedImage);
     
     % Eye map
-    map = eyeMap(rgbImageWhite);
-%     figure, imshow(map)
+    map = eyeMap(normalizedImage);
+%     disp('eyemap')
+    
     % Combine
     res = map & mask;
-%     figure, imshow(res)
+    
     % Cleaning
     res = cleaning(res);
+%     
+%     figure, imshow(normalizedImage);
+%     figure, imshow(map);
+%     figure, imshow(mask);
+%     figure, imshow(res);
     
     % Get eye coordinates
     [lab,num]=bwlabel(res);
@@ -28,11 +34,11 @@ function [croppedImage] = cropImage(RGB)
         x2 = eye2(2);
 
         % Rotate the images based on the eyes
-        rotatedImage = rotate_image(RGB,y1,x1,y2,x2);
+        rotatedImage = rotateImage(RGB,y1,x1,y2,x2);
         % disp('Rotated image'), imshow(rotatedImage);
 
         % Get new eye coordinates
-        map = rotate_image(res,y1,x1,y2,x2);
+        map = rotateImage(res,y1,x1,y2,x2);
         [lab,~]=bwlabel(map);
         stats2 = regionprops(lab);
         eye1 = getfield(stats2,{1},'Centroid');
@@ -43,8 +49,9 @@ function [croppedImage] = cropImage(RGB)
         y2 = eye2(2);
 
         % Crop the image square for eigenfaces
-        croppedImage = crop(rotatedImage, x1, y1, x2, y2);
+        croppedImage = cropForEyes(rotatedImage, x1, y1, x2, y2);
     else
+        disp('Crop Image: Can not find eyes')
         croppedImage = 0;
     end
     

@@ -1,11 +1,12 @@
 function [normalizedImage] = normalizeImage(grayImage)
     
-    % Normalize light intensity in a gray image
-    if (mean(grayImage(:)) < 0.5 || mean(grayImage(:)) > 0.5 )
-        grayImage = grayImage * (0.5 / mean(grayImage(:))); 
-    end
-
     normalizedImage = (grayImage - min(min(grayImage))) / (max(max(grayImage)) - min(min(grayImage)) );
-
+    
+    r = 0.75;
+    % Normalize light intensity in a gray image - better with 0.74 ??
+    if (mean(normalizedImage(:)) < r || mean(normalizedImage(:)) > r )
+        normalizedImage = normalizedImage * (r / mean(normalizedImage(:))); 
+    end
+    
 end
 

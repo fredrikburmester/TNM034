@@ -51,11 +51,11 @@ function [croppedImage] = cropImage(RGB)
         disp('Crop Image: Can not find eyes')
         croppedImage = 0;
     end
-    
-  figure, imshow(normalizedImage);
-    
-  figure, imshow(mask);
-    figure, imshow(croppedImage);
+%     
+%   figure, imshow(normalizedImage);
+%     
+%   figure, imshow(mask);
+%     figure, imshow(croppedImage);
     
 end
 

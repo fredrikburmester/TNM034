@@ -31,14 +31,24 @@ function [id, value] = TNM034(im)
     % 0 if no match is found.
     
     % Crop the image
+    skip = 1;
+    
     croppedImage = cropImage(im);
+    
+    
+    croppedImage_t = croppedImage(:);
+    for i = 1:size(croppedImage_t)
+        if(croppedImage_t(i) ~= 0)
+            skip = 0;
+        end
+    end
    
     id = 0;
-    if isempty(croppedImage)
+    value = 0;
+    if (skip == 1)
          disp('Error: cropImage returned no eyes...')
     else
 %         figure, imshow(croppedImage);
-        
         croppedImage = whitePatch(croppedImage);
         normalizedImage = normalizeRGBImage(croppedImage);
         

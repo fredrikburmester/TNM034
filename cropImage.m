@@ -3,21 +3,26 @@ function [croppedImage] = cropImage(RGB)
     rgbImageWhite = whitePatch(RGB);
     normalizedImage = normalizeRGBImage(rgbImageWhite);
 
+    figure, imshow(normalizedImage);
     % Face mask
     mask = faceMask(normalizedImage);
+%     figure, imshow(mask);
     
     % Eye map
     map = eyeMap(normalizedImage);
+%     figure, imshow(map);
    
     % Combine
     res = map & mask;
+%     figure, imshow(res);
     
     % Cleaning
     res = imresize(res, [NaN 350]);
     RGB = imresize(RGB, [NaN 350]);
 
     res = cleaning(res);
-
+%     figure, imshow(res);
+    
     % Get eye coordinates
     [lab,num]=bwlabel(res);
     
@@ -51,10 +56,7 @@ function [croppedImage] = cropImage(RGB)
         disp('Crop Image: Can not find eyes')
         croppedImage = 0;
     end
-%     
-%   figure, imshow(normalizedImage);
-%     
-%   figure, imshow(mask);
+ 
 %     figure, imshow(croppedImage);
     
 end

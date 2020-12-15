@@ -45,7 +45,7 @@ function [id, value] = TNM034(im)
     id = 0;
     value = 0;
     if (skip == 1)
-         disp('Error: cropImage returned no eyes...')
+         % do nothing
     else
         croppedImage = whitePatch(croppedImage);
         normalizedImage = normalizeRGBImage(croppedImage);

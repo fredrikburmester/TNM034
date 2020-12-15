@@ -16,7 +16,11 @@ tnm034(imload('path to image'))
 ```
 The function will return a 0 if the face in your image is not part of the data set (DB1), otherwise the function will return the id of the person it thinks the input image contains.
 
-## Contributors
+## Additional information
+### Underlying therory
+For more information regarding the underlying theory and math behind the program, please read the report in the folder 'inlämningar'. The report is in Swedish. 
+
+### Contributors
 - Linus Hjeltman
 - Olivia Enroth
 - Fredrik Burmester

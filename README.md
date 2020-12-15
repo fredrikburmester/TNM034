@@ -1,5 +1,5 @@
 # TNM034-project
-This is a project in the course "Advanced Image Processing" at Linköpings University. 
+Face detection project in the course "Advanced Image Processing" at Linköpings University. 
 
 This aim of the project was to create a program to determain if a persons face is part of an image set. We do this using face recognition with eigen faces and PCA.
 

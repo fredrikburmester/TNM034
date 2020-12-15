@@ -12,6 +12,10 @@ function [weights, u] = createWeights(image_matrix,meanFace)
         u(:,i) = u(:,i)/norm(u(:,i));
     end
     
+    for j = 1:8
+        u2(:,j) = u(:,9-j);
+    end
+    
     % Weights
     weights = u'*A;
 end

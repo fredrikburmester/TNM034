@@ -18,7 +18,7 @@ The function will return a 0 if the face in your image is not part of the data s
 
 ## Additional information
 ### Underlying therory
-For more information regarding the underlying theory and math behind the program, please read the report in the folder 'inlämningar'. The report is in Swedish. 
+For more information regarding the underlying theory and math behind the program, please read the report in the folder 'inlämning'. The report is in Swedish. 
 
 ### Contributors
 - Linus Hjeltman

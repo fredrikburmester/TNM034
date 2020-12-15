@@ -5,7 +5,7 @@ This aim of the project was to create a program to determain if a persons face i
 
 The **main.mlx** file is used for running the program and testing its accuracy. 
 
-The folder 'inlämning' contains the final result in the course. 
+The folder `./inlämning` contains the final result in the course. 
 
 ## Run the code
 1. To run the code, open the folder 'inlämningar'
@@ -18,7 +18,7 @@ The function will return a 0 if the face in your image is not part of the data s
 
 ## Additional information
 ### Underlying therory
-For more information regarding the underlying theory and math behind the program, please read the report in the folder 'inlämning'. The report is in Swedish. 
+For more information regarding the underlying theory and math behind the program, please read the report in the folder `./inlämning`. The report is in Swedish. 
 
 ### Contributors
 - Linus Hjeltman

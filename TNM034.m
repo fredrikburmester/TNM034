@@ -35,7 +35,6 @@ function [id, value] = TNM034(im)
     
     croppedImage = cropImage(im);
     
-    
     croppedImage_t = croppedImage(:);
     for i = 1:size(croppedImage_t)
         if(croppedImage_t(i) ~= 0)
@@ -48,7 +47,6 @@ function [id, value] = TNM034(im)
     if (skip == 1)
          disp('Error: cropImage returned no eyes...')
     else
-%         figure, imshow(croppedImage);
         croppedImage = whitePatch(croppedImage);
         normalizedImage = normalizeRGBImage(croppedImage);
         
@@ -56,13 +54,14 @@ function [id, value] = TNM034(im)
         grayImage = im2gray(im2double(normalizedImage));
         
         normalizedImage = normalizeImage(grayImage);
-%         figure, imshow(normalizedImage)
+
         % Calculate weights for in image
         theta = normalizedImage(:) - meanFace;
         qw = u'*theta;
         
         % Normalize the weights of the new image
         e_n = zeros(1,16);
+        
         for i = 1:16
             e_n(i) = norm(w(:,i) - qw(:));
         end

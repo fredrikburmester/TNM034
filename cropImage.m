@@ -3,7 +3,7 @@ function [croppedImage] = cropImage(RGB)
     rgbImageWhite = whitePatch(RGB);
     normalizedImage = normalizeRGBImage(rgbImageWhite);
 
-    figure, imshow(normalizedImage);
+%     figure, imshow(normalizedImage);
     % Face mask
     mask = faceMask(normalizedImage);
 %     figure, imshow(mask);

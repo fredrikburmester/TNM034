@@ -12,8 +12,8 @@ success = 0;
 attempts = 0;
 false_positive = 0;
 
-% For all 16 images in DB1, test each image with random variations 500 times against DB1
-for j = 1:500
+% For all 16 images in DB1, test each image with random variations 5 times against DB1
+for j = 1:5
     disp(j) % print current loop iteration
     for file = files
         attempts = attempts+1;

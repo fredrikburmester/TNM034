@@ -9,7 +9,7 @@ The folder `./inlämning` contains the final result in the course.
 
 ## Run the code
 1. To run the code, open the folder 'inlämningar'
-2. Load the data.mat file into workspace or let the program build all the nessesary variables and matricies. 
+2. Load the data.mat file into workspace (or let the program build all the nessesary variables and matricies, but the folder `./DB1` needs to be on path). 
 3. Run the function tnm034.m like so:
 ```
 tnm034(imload('path to image'))

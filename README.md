@@ -3,6 +3,8 @@ This is a project in the course "Advanced Image Processing" at Linköpings Unive
 
 This aim of the project was to create a program to determain if a persons face is part of an image set. We do this using face recognition with eigen faces and PCA.
 
+The programming language MATLAB was used to complete this project.
+
 The **main.mlx** file is used for running the program and testing its accuracy. 
 
 The folder `./inlämning` contains the final result in the course. 

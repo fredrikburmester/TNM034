@@ -14,4 +14,4 @@ The folder 'inlämning' contains the final result in the course.
 ```
 tnm034(imload('path to image'))
 ```
-and the function will return a 0 if the face in your image is not part of the data set (DB1), otherwise the function will return the id of the person it thinks the input image contains.
+The function will return a 0 if the face in your image is not part of the data set (DB1), otherwise the function will return the id of the person it thinks the input image contains.
